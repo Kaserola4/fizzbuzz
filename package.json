@@ -1,0 +1,23 @@
+{
+  "name": "fizzbuzz",
+  "version": "1.0.0",
+  "description": "First practice from the LaunchX NodeJS Fourth week",
+  "main": "index.js",
+  "scripts": {
+    "test": "node node_modules/jest/bin/jest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kaserola4/fizzbuzz.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kaserola4/fizzbuzz/issues"
+  },
+  "homepage": "https://github.com/Kaserola4/fizzbuzz#readme",
+  "devDependencies": {
+    "jest": "^28.0.3"
+  }
+}
