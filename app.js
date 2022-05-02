@@ -1,16 +1,54 @@
 const Reader = require('./lib/utils/reader')
 const ExplorerService = require('./lib/services/explorer-service')
 const FizzBuzzService = require('./lib/services/fizzbuzz-service')
-// Part 1 Read json file ===========================
-const explorers = Reader.readJsonFile("explorers.json");
+const express = require('express');
+const app = express();
+const PORT = 3000
 
-// Part 2: Get the quantity of explorers names in node
-const explorersInNode = ExplorerService.getAmountOfExplorersByMission(explorers, 'node')
-// console.log(explorersInNode)
-// Part 3: Get the explorer's usernames in Node
-const usernamesInNode = ExplorerService.getExplorersUsernamesByMission(explorers, 'node');
-// console.log(usernamesInNode)
-// Part 4: Get a new list of explorers in node, if the score numbers is divisible by 3, I need a new propery called trick, and the value assigned is FIZZ, if not the value should be the score itself.
-const explorersInNodeMission = ExplorerService.filterByMission(explorers, 'node')
-const explorersInNodeAndFizzBuzzTrick = explorersInNodeMission.map((explorer) => FizzBuzzService.applyValidationInExplorer(explorer));
-// console.log(explorersInNodeAndFizzBuzzTrick)
+const explorers = Reader.readJsonFile("explorers.json");
+app.use(express.json())
+
+app.get('/v1/explorers/:mission', (req, res) => {
+    const mission = req.params.mission
+    console.log(`GET EXPLORERS BY MISSION: ${mission}`)
+    const explorersInMission = ExplorerService.filterByMission(explorers, mission)
+
+    if (Object.entries(explorersInMission).length !== 0) {
+        const fizzBuzzedTrickedExplorers = explorersInMission.map(explorer => FizzBuzzService.applyValidationInExplorer(explorer))
+        res.status(200).json(fizzBuzzedTrickedExplorers)
+    }
+    else {
+        res.status(404).json({ "message": "No explorers found" })
+    }
+
+})
+
+app.get('/v1/explorers/amount/:mission', (req, res) => {
+    const mission = req.params.mission
+    console.log(`GET EXPLORERS AMOUNT BY MISSION: ${mission}`)
+    const amountOfExplorersByMission = ExplorerService.getAmountOfExplorersByMission(explorers, mission)
+
+    if (amountOfExplorersByMission !== 0) {
+        res.status(200).json(amountOfExplorersByMission)
+    }
+    else {
+        res.status(404).json({ "message": "No explorers found" })
+    }
+})
+
+app.get('/v1/explorers/usernames/:mission', (req, res) => {
+    const mission = req.params.mission
+    console.log(`GET EXPLORERS USERNAMES BY MISSION: ${mission}`)
+    const explorersUsernamesByMission = ExplorerService.getExplorersUsernamesByMission(explorers, mission)
+
+    if (Object.entries(explorersUsernamesByMission).length !== 0) {
+        res.status(200).json(explorersUsernamesByMission)
+    }
+    else {
+        res.status(404).json({ "message": "No explorers found" })
+    }
+})
+
+app.listen(PORT, () => {
+    console.log(`App listening on port: ${PORT}`)
+})

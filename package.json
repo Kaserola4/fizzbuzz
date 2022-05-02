@@ -4,6 +4,8 @@
   "description": "First practice from the LaunchX NodeJS Fourth week",
   "main": "index.js",
   "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "test": "node node_modules/jest/bin/jest.js"
   },
   "repository": {
@@ -18,6 +20,10 @@
   },
   "homepage": "https://github.com/Kaserola4/fizzbuzz#readme",
   "devDependencies": {
-    "jest": "^26.0.0"
+    "jest": "^26.0.0",
+    "nodemon": "^2.0.16"
+  },
+  "dependencies": {
+    "express": "^4.18.1"
   }
 }
